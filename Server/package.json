@@ -8,9 +8,9 @@
     "seed": "node seeds/seed.js",
     "watch": "nodemon server.js"
   },
-  "engines" : { 
-    "npm" : "6.14.14",
-    "node" : "14.17.5"
+  "engines": {
+    "npm": "6.14.14",
+    "node": "14.17.5"
   },
   "author": "",
   "license": "ISC",

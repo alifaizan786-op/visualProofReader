@@ -10,9 +10,9 @@
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build"
   },
-  "engines" : { 
-    "npm" : "6.14.14",
-    "node" : "14.17.5"
+  "engines": {
+    "npm": "6.14.14",
+    "node": "14.17.5"
   },
   "repository": {
     "type": "git",
