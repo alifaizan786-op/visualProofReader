@@ -4,6 +4,8 @@ const path = require('path')
 
 const app = express();
 
+const PORT = process.env.PORT || 4000
+
 
 require("events").EventEmitter.prototype._maxListeners = 100;
 
@@ -200,7 +202,7 @@ app.get("/info", async (req, res) => {
 
 
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
