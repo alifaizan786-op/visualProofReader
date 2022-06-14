@@ -19,7 +19,7 @@ function App() {
 
   function apiCalls() {
     for (let i = 0; i < SKU.length; i++) {
-      axios.get(`http://localhost:4000/info?sku=${SKU[i]}`).then((res) => {
+      axios.get(`info?sku=${SKU[i]}`).then((res) => {
         let allInfoObj = {
           sku: SKU[i],
           infoFromWeb: res.data.Webinfo,
