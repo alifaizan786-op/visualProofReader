@@ -6,9 +6,11 @@ const app = express();
 
 const PORT = process.env.PORT || 4000
 
+
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 
 require("events").EventEmitter.prototype._maxListeners = 100;
 
@@ -207,7 +209,8 @@ app.get("/info", async (req, res) => {
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
 app.listen(PORT);
