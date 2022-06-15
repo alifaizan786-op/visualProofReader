@@ -6,6 +6,9 @@ const app = express();
 
 const PORT = process.env.PORT || 4000
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 
 require("events").EventEmitter.prototype._maxListeners = 100;
 
