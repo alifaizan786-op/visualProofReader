@@ -18,7 +18,7 @@ require("events").EventEmitter.prototype._maxListeners = 100;
 app.get("/info", async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   /* Opening a browser and going to the URL. */
-  const browser = await puppeteer.launch({});
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   const page = await browser.newPage();
   await page.goto(
     `https://www.malanijewelers.com/Views/Product/ProductInfo?value=${req.query.sku}`
