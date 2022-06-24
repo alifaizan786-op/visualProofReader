@@ -1,11 +1,13 @@
 const puppeteer = require("puppeteer");
 const express = require("express");
-const path = require('path')
+var fs = require('fs');
+var path = require('path');
 
 const app = express();
 require('dotenv').config()
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 8085
+
 
 
 
@@ -205,6 +207,18 @@ app.get("/info", async (req, res) => {
   res.json({ Webinfo: allInfo, mjPlusInfo: mjInfo });
   await browser.close();
 });
+
+app.get("/allWebInfo", async (req, res) => {
+  var filePath = path.join(__dirname, './output.json');
+
+  var f = fs.readFileSync(filePath, {encoding: 'utf-8'}, 
+    function (err) { console.log(err); });
+  
+  console.log(JSON.parse(f));
+  
+  res.json({ Webinfo: JSON.parse(f) });
+  
+})
 
 
 
