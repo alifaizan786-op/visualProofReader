@@ -1,9 +1,8 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "../../App.css";
 import axios from "axios";
 
-export default function visualProofReader() {
+export default function VisualProofReader() {
   const [SKU, setSKU] = React.useState([]);
   const [info, setinfo] = React.useState([]);
 

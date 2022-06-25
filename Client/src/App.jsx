@@ -1,20 +1,27 @@
 import React from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import visualProofReader from './Pages/visualProofReader'
+import VisualProofReader from "./Pages/Proof/visualProofReader";
+import Home from "./Pages/Home/Home";
+import Gallery from "./Pages/Gallery/Gallery";
 
 function App() {
-  
   return (
     <div className="App">
       <Router>
-        <Route exact path={"/"}>
-          <visualProofReader/>
-        </Route>
+      <Route exact path={"/"}>
+            <Home />
+          </Route>
+          <Route exact path={"/proofReader"}>
+            <VisualProofReader />
+          </Route>
+          <Route exact path={"/Gallery"}>
+            <Gallery />
+          </Route>
       </Router>
-      </div>
+    </div>
   );
 }
 
