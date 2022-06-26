@@ -217,7 +217,7 @@ app.get("/rename/:curImageName/to/:newImageName", async (req, res) => {
     }.jpg`;
     let imageName = `${
         formatSkuToImage(req.params.newImageName)
-    }.jpeg`
+    }.jpg`
 
     downloadImage(imageUrl, imageName)
 });

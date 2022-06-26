@@ -10,8 +10,11 @@ import Button from "@mui/material/Button";
 export default function Gallery() {
   const [allWebInfo, setAllWebInfo] = React.useState([]);
   const [filtered, setFiltered] = React.useState([]);
+
   const [vendor, setVendor] = React.useState("");
   const [classCode, setClassCode] = React.useState("");
+  const [jewelryType, setJewelryType] = React.useState("");
+
   const [render, setRender] = React.useState(false);
 
   function clearState() {
@@ -331,8 +334,15 @@ export default function Gallery() {
     "396",
   ];
 
+  const allJewelryType = [
+    "Antique",
+    "Diamonds",
+    "Gemstones",
+    "Gold"
+  ]
+
   async function filter() {
-    if (vendor && classCode) {
+    if (vendor && classCode ) {
       let tempArrOne = await allWebInfo.filter(
         (item) => item.Vendor === vendor
       );
@@ -416,6 +426,23 @@ export default function Gallery() {
             onChange={(event) => setClassCode(event.target.value)}
           >
             {allClassCode.map((item, index) => (
+              <MenuItem key={index} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {/* for Jewelry Type */}
+        <FormControl sx={{ width: "200px", marginRight: "20px" }}>
+          <InputLabel id="demo-simple-select-label">Jewelry Type</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={jewelryType}
+            label="classCode"
+            onChange={(event) => setJewelryType(event.target.value)}
+          >
+            {allJewelryType.map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
