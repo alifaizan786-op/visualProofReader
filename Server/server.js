@@ -10,7 +10,7 @@ var {
 const app = express();
 require("dotenv").config();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8085;
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
