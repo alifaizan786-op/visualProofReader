@@ -13,18 +13,19 @@ export default function Gallery() {
 
   const [vendor, setVendor] = React.useState("");
   const [classCode, setClassCode] = React.useState("");
-  const [jewelryType, setJewelryType] = React.useState("")
-
+  const [jewelryType, setJewelryType] = React.useState("");
 
   const [render, setRender] = React.useState(false);
 
   function clearState() {
     setVendor("");
     setClassCode("");
-    setJewelryType("")
+    setJewelryType("");
     setFiltered([]);
     setRender(false);
   }
+
+  console.log(window.location.href.split("/")[3]);
 
   const allVendors = [
     "FC",
@@ -336,67 +337,72 @@ export default function Gallery() {
     "396",
   ];
 
-  const allJewelryType = [
-    "Diamonds",
-    "Antique",
-    "Gold",
-    "Gemstones"
-  ]
+  const allJewelryType = ["Diamonds", "Antique", "Gold", "Gemstones"];
 
   async function filter() {
     if (vendor && classCode && jewelryType) {
+      let tempArrOne = await allWebInfo.filter(
+        (item) => item.Vendor === vendor
+      );
 
-      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
-      
-      let tempArrTwo = await tempArrOne.filter((item) => item.Classcode === classCode);
+      let tempArrTwo = await tempArrOne.filter(
+        (item) => item.Classcode === classCode
+      );
 
-      let tempArrThree = await tempArrTwo.filter((item) => item["Jewelry Type"] === jewelryType);
-      
+      let tempArrThree = await tempArrTwo.filter(
+        (item) => item["Jewelry Type"] === jewelryType
+      );
+
       setFiltered(tempArrThree);
-
     } else if (vendor && classCode) {
+      let tempArrOne = await allWebInfo.filter(
+        (item) => item.Vendor === vendor
+      );
 
-      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
-      
-      let tempArrTwo = await tempArrOne.filter((item) => item.Classcode === classCode);
+      let tempArrTwo = await tempArrOne.filter(
+        (item) => item.Classcode === classCode
+      );
 
       setFiltered(tempArrTwo);
-
     } else if (vendor && jewelryType) {
+      let tempArrOne = await allWebInfo.filter(
+        (item) => item.Vendor === vendor
+      );
 
-      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
-
-      let tempArrThree = await tempArrOne.filter((item) => item["Jewelry Type"] === jewelryType);
+      let tempArrThree = await tempArrOne.filter(
+        (item) => item["Jewelry Type"] === jewelryType
+      );
 
       setFiltered(tempArrThree);
-
     } else if (classCode && jewelryType) {
+      let tempArrTwo = await allWebInfo.filter(
+        (item) => item.Classcode === classCode
+      );
 
-      let tempArrTwo = await allWebInfo.filter((item) => item.Classcode === classCode);
-
-      let tempArrThree = await tempArrTwo.filter((item) => item["Jewelry Type"] === jewelryType);
+      let tempArrThree = await tempArrTwo.filter(
+        (item) => item["Jewelry Type"] === jewelryType
+      );
 
       setFiltered(tempArrThree);
-
     } else if (jewelryType) {
-
-      let tempArrThree = await allWebInfo.filter((item) => item["Jewelry Type"] === jewelryType);
+      let tempArrThree = await allWebInfo.filter(
+        (item) => item["Jewelry Type"] === jewelryType
+      );
 
       setFiltered(tempArrThree);
-
     } else if (classCode) {
-
-      let tempArrThree = await allWebInfo.filter((item) => item.Classcode === classCode);
+      let tempArrThree = await allWebInfo.filter(
+        (item) => item.Classcode === classCode
+      );
 
       setFiltered(tempArrThree);
-
     } else if (vendor) {
-
-      let tempArrThree = await allWebInfo.filter((item) => item.Vendor === vendor);
+      let tempArrThree = await allWebInfo.filter(
+        (item) => item.Vendor === vendor
+      );
 
       setFiltered(tempArrThree);
-
-    } 
+    }
     setRender(true);
   }
 
@@ -419,7 +425,7 @@ export default function Gallery() {
   React.useEffect(() => {
     axios.get(`/allWebInfo`).then((res) => {
       var cleanData = res.data.Webinfo.filter((sku) => sku.SKUCode);
-      setAllWebInfo(cleanData)
+      setAllWebInfo(cleanData);
     });
   }, []);
 
@@ -427,7 +433,12 @@ export default function Gallery() {
 
   return (
     <>
-      <h1>Gallery</h1>
+      {window.location.href.split("/")[3] === "rename" ? (
+        <h1>Renamer</h1>
+      ) : (
+        <h1>Gallery</h1>
+      )}
+
       <div>
         {/* for vendor */}
         <FormControl sx={{ width: "200px", marginRight: "20px" }}>
@@ -509,14 +520,33 @@ export default function Gallery() {
         <h1>{filtered.length} Products Found</h1>
         {render ? (
           <div>
-            {filtered.map((item, index) => (
-              <a href={`/productpage/${item.SKUCode}`} index={index} target="__blank">
-                <img
-                  src={formatSkuToImage(item.SKUCode)}
-                  style={{ maxWidth: "400px" }}
-                />
-              </a>
-            ))}
+            {window.location.href.split("/")[3] === "rename" ? (
+              filtered.map((item, index) => (
+                <a
+                  href={`/rename/${item.SKUCode}`}
+                  index={index}
+                  target="__blank"
+                >
+                  <img
+                    src={formatSkuToImage(item.SKUCode)}
+                    style={{ maxWidth: "400px" }}
+                  />
+                </a>
+              ))
+            ) : (
+              filtered.map((item, index) => (
+                <a
+                  href={`/productpage/${item.SKUCode}`}
+                  index={index}
+                  target="__blank"
+                >
+                  <img
+                    src={formatSkuToImage(item.SKUCode)}
+                    style={{ maxWidth: "400px" }}
+                  />
+                </a>
+              ))
+            )}
           </div>
         ) : (
           <div>

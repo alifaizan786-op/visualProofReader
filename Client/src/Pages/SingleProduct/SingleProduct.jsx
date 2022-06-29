@@ -24,7 +24,7 @@ export default function SingleProduct() {
 
       setTimeout(async function () { 
         // Create blob link to download
-        const url = `http://localhost:3001/download/${formatSkuToImage(renameList[i])}`;
+        const url = `http://localhost:8085/download/${formatSkuToImage(renameList[i])}`;
         console.log(url);
         const link = document.createElement("a");
         console.log(link);
@@ -46,6 +46,7 @@ export default function SingleProduct() {
     }
   }
 
+  console.log(window.location.href.split("/")[3]);
   
 
   let SKUCODE = window.location.href.split("/")[4];
@@ -201,45 +202,39 @@ export default function SingleProduct() {
               </ul>
             </div>
             {/* childLeft */}
+            {window.location.href.split("/")[3] === "rename" ? (
             <div style={{ width: "50%" }}>
-              <h3>Enter the List Of SKU's You wish to rename this Image to</h3>
-              <textarea
-                name=""
-                id=""
-                cols="30"
-                style={{ width: "100%" }}
-                onChange={(event) => {
-                  setRenameList(event.target.value.split("\n"));
+            <h3>Enter the List Of SKU's You wish to rename this Image to</h3>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              style={{ width: "100%" }}
+              onChange={(event) => {
+                setRenameList(event.target.value.split("\n"));
+              }}
+              rows="10"
+            ></textarea>
+            <br />
+            <FormControl
+              sx={{ width: "200px", marginRight: "20px",  }}
+            >
+              <Button
+                variant="outlined"
+                sx={{ height: "50px", marginTop: "10px" }}
+                onClick={() => {
+                  renamer();
                 }}
-                rows="10"
-              ></textarea>
-              <br />
-              <FormControl
-                sx={{ width: "200px", marginRight: "20px", maxWidth: "100px" }}
               >
-                <Button
-                  variant="outlined"
-                  sx={{ height: "50px", marginTop: "10px" }}
-                  onClick={() => {
-                    renamer();
-                  }}
-                >
-                  Rename
-                </Button>
-              </FormControl>
-              <FormControl
-                sx={{ width: "200px", marginRight: "20px", maxWidth: "100px" }}
-              >
-                <Button
-                  variant="outlined"
-                  sx={{ height: "50px", marginTop: "10px" }}
-                  disabled={btnDisable}
-                >
-                  Download
-                </Button>
-              </FormControl>
-              {/* <a href="http://localhost:3001/download/34003559.jpg" download>Download</a> */}
-            </div>
+                Rename & Download
+              </Button>
+            </FormControl>
+          </div>
+            ) : (
+              <div></div>
+            )}
+
+            
           </div>
         </div>
       </div>
