@@ -25,7 +25,11 @@ function App() {
           <Gallery />
         </Route>
 
+<<<<<<< HEAD
         <Route exact path={"/productpage/:sku"}>
+=======
+        <Route exact path={"/:sku"}>
+>>>>>>> 0ae79e60e42acf1be646dcb6893fdea7b8865148
           <SingleProduct />
         </Route>
         
