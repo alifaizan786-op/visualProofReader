@@ -10,7 +10,7 @@ var {
 const app = express();
 require("dotenv").config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -212,20 +212,18 @@ app.get("/allWebInfo", async (req, res) => {
 app.get("/rename/:curImageName/to/:newImageName", async (req, res) => {
 
 
-    let imageUrl = `https://www.malanijewelers.com/TransactionImages/Styles/Large/${
-        formatSkuToImage(req.params.curImageName)
-    }.jpg`;
-    let imageName = `${
-        formatSkuToImage(req.params.newImageName)
-    }.jpeg`
+    let imageUrl = `https://www.malanijewelers.com/TransactionImages/Styles/Large/${req.params.curImageName}`
+    let imageName = req.params.newImageName
 
     downloadImage(imageUrl, imageName)
+
+    res.send('Successfull')
 });
 
-app.get("/:imageName", (req, res) => {
-    res.download(path.join(__dirname, `./images/${
-        req.params.imageName
-    }.jpeg`))
+app.get("/download/:imageName", (req, res) => {
+    res.setHeader('Content-disposition', `attachment; filename=${req.params.imageName}`);
+    res.setHeader('Content-Type', 'image/jpg');
+    res.download(path.join(__dirname, `./images/${req.params.imageName}`))
 })
 
 app.use(express.static(path.join(__dirname, "../Client/build")));

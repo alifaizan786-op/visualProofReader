@@ -9,13 +9,22 @@ import Button from "@mui/material/Button";
 
 export default function Gallery() {
   const [allWebInfo, setAllWebInfo] = React.useState([]);
+  const [filtered, setFiltered] = React.useState([]);
+
   const [vendor, setVendor] = React.useState("");
-  const [subCategory, setSubCategory] = React.useState("");
   const [classCode, setClassCode] = React.useState("");
-  const [goldKt, setGoldKt] = React.useState("");
-  const [category, setCategory] = React.useState("");
-  const [color, setColor] = React.useState("");
-  const [finishing, setfinishing] = React.useState("");
+  const [jewelryType, setJewelryType] = React.useState("")
+
+
+  const [render, setRender] = React.useState(false);
+
+  function clearState() {
+    setVendor("");
+    setClassCode("");
+    setJewelryType("")
+    setFiltered([]);
+    setRender(false);
+  }
 
   const allVendors = [
     "FC",
@@ -107,92 +116,6 @@ export default function Gallery() {
     "ISQ",
     "KS",
     "RC",
-  ];
-
-  const allSubCategories = [
-    "COLLECTIONS->Ameera Collection",
-    "COLLECTIONS->Anora Collection",
-    "COLLECTIONS->Mudra Collection",
-    "COLLECTIONS->Navya Collection",
-    "COLLECTIONS->Nikhar Collection",
-    "COLLECTIONS->Nitya Collection",
-    "COLLECTIONS->Pushtaini Collection",
-    "COLLECTIONS->Rangoli Collection",
-    "COLLECTIONS->Romance Collection",
-    "COLLECTIONS->Rose Collection",
-    "COLLECTIONS->Sunehra Collection",
-    "COLLECTIONS->Tejasvi Collection",
-    "COLLECTIONS->Ujwal Collection",
-    "COLLECTIONS->Utsavam Collection",
-    "Custom Design->Bracelet",
-    "Custom Design->Earrings",
-    "Custom Design->Pendant",
-    "Custom Design->Ring",
-    "DEALS->Deal of the Day",
-    "DEALS->Online Deals",
-    "KIDS->Accessories",
-    "KIDS->Bangles",
-    "KIDS->Bracelets",
-    "KIDS->Chains",
-    "KIDS->Earrings",
-    "KIDS->Pendants",
-    "KIDS->Rings",
-    "MEN->Bracelets",
-    "MEN->Bracelets->Fancy Bracelets",
-    "MEN->Bracelets->Kara",
-    "MEN->Fancy Chains",
-    "MEN->Fancy Chains->Fancy Chains",
-    "MEN->Rings",
-    "MEN->Rings->Designer Bands",
-    "MEN->Rings->Fancy",
-    "MEN->Rings->Plain Bands",
-    "OTHERS->Astrological Rings",
-    "OTHERS->Astrological Stones",
-    "OTHERS->Gift Articles",
-    "OTHERS->Gold Coins",
-    "OTHERS->Gold Idols",
-    "OTHERS->Silver Coins",
-    "OTHERS->Silver Idols",
-    "WATCHES->Cartier",
-    "WATCHES->Movado",
-    "WATCHES->Rado",
-    "WATCHES->Rolex",
-    "WOMEN->Accessories",
-    "WOMEN->Accessories->Anklets (Payal)",
-    "WOMEN->Accessories->Broach",
-    "WOMEN->Accessories->Maang Tikka",
-    "WOMEN->Accessories->Misc",
-    "WOMEN->Accessories->Nosepins",
-    "WOMEN->Accessories->Sahara",
-    "WOMEN->Accessories->Waist Band",
-    "WOMEN->Bangles",
-    "WOMEN->Bangles->Arm Bracelets (Baju Bandh)",
-    "WOMEN->Bangles->Bangle/Bracelet",
-    "WOMEN->Bangles->Bracelets",
-    "WOMEN->Bangles->Finger Bracelets",
-    "WOMEN->Bangles->Kara",
-    "WOMEN->Bangles->Set of Bangles",
-    "WOMEN->Earrings",
-    "WOMEN->Earrings->Chandbali",
-    "WOMEN->Earrings->Clipons",
-    "WOMEN->Earrings->Hoops",
-    "WOMEN->Earrings->Jumkha",
-    "WOMEN->Earrings->Long Drops",
-    "WOMEN->Earrings->Sui Dhaga",
-    "WOMEN->Earrings->Tops",
-    "WOMEN->Necklaces",
-    "WOMEN->Necklaces->Fancy Chains",
-    "WOMEN->Necklaces->Mangalsutras",
-    "WOMEN->Necklaces->Necklace Sets",
-    "WOMEN->Necklaces->Patta Sets",
-    "WOMEN->Necklaces->Pendant Sets",
-    "WOMEN->Necklaces->Pendants",
-    "WOMEN->Necklaces->Plain Chains",
-    "WOMEN->Rings",
-    "WOMEN->Rings->Bands",
-    "WOMEN->Rings->Designer Bands",
-    "WOMEN->Rings->Fancy Rings",
-    "WOMEN->Rings->GIA Certified Solitaire",
   ];
 
   const allClassCode = [
@@ -413,63 +336,71 @@ export default function Gallery() {
     "396",
   ];
 
-  const allGoldKt = [
-    "22KG",
-    "21KG",
-    "18KG",
-    "20KG",
-    "Oth",
-    "14KG",
-    "Silver",
-    "Platinum",
-    "24KG",
-  ];
-
-  const allCategories = [
-    "CATALOG",
-    "COLLECTIONS",
-    "Custom Design",
-    "DEALS",
-    "KIDS",
-    "MEN",
-    "OTHERS",
-    "WATCHES",
-    "WOMEN",
-  ];
-
   const allJewelryType = [
-    "Gold",
-    "Antique",
-    "Gemstones",
     "Diamonds",
-    "Silver",
-    "Platinum",
-  ];
-
-  const allColors = [
-    "Yellow",
-    "Rose",
-    "White",
-    "Three-Tone",
-    "Two-Tone",
     "Antique",
-  ];
+    "Gold",
+    "Gemstones"
+  ]
 
-  const allFinishings = [
-    "Yellow",
-    "Rose",
-    "White",
-    "Three-Tone",
-    "Two-Tone",
-    "Antique",
-    "Yellow and White",
-    "Rose and White",
-    "Yellow and Rose",
-    "Yellow, Rose and White",
-    "Minakari",
-  ];
+  async function filter() {
+    if (vendor && classCode && jewelryType) {
 
-  function formatSkuToImage(sku) {
+      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
+      
+      let tempArrTwo = await tempArrOne.filter((item) => item.Classcode === classCode);
+
+      let tempArrThree = await tempArrTwo.filter((item) => item["Jewelry Type"] === jewelryType);
+      
+      setFiltered(tempArrThree);
+
+    } else if (vendor && classCode) {
+
+      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
+      
+      let tempArrTwo = await tempArrOne.filter((item) => item.Classcode === classCode);
+
+      setFiltered(tempArrTwo);
+
+    } else if (vendor && jewelryType) {
+
+      let tempArrOne = await allWebInfo.filter((item) => item.Vendor === vendor);
+
+      let tempArrThree = await tempArrOne.filter((item) => item["Jewelry Type"] === jewelryType);
+
+      setFiltered(tempArrThree);
+
+    } else if (classCode && jewelryType) {
+
+      let tempArrTwo = await allWebInfo.filter((item) => item.Classcode === classCode);
+
+      let tempArrThree = await tempArrTwo.filter((item) => item["Jewelry Type"] === jewelryType);
+
+      setFiltered(tempArrThree);
+
+    } else if (jewelryType) {
+
+      let tempArrThree = await allWebInfo.filter((item) => item["Jewelry Type"] === jewelryType);
+
+      setFiltered(tempArrThree);
+
+    } else if (classCode) {
+
+      let tempArrThree = await allWebInfo.filter((item) => item.Classcode === classCode);
+
+      setFiltered(tempArrThree);
+
+    } else if (vendor) {
+
+      let tempArrThree = await allWebInfo.filter((item) => item.Vendor === vendor);
+
+      setFiltered(tempArrThree);
+
+    } 
+    setRender(true);
+  }
+
+  function formatSkuToImage(sku, index) {
     if (sku.length === 7) {
       return `https://www.malanijewelers.com/TransactionImages/Styles/Large/00${sku
         .split("-")
@@ -485,13 +416,14 @@ export default function Gallery() {
     }
   }
 
-  // React.useEffect(() => {
-  //   axios.get(`/allWebInfo`).then((res) => {
-  //       var cleanData = res.data.Webinfo.filter((sku) => sku.SKUCode)
-  //     setAllWebInfo(cleanData);
-  //     console.log(cleanData);
-  //   });
-  // }, []);
+  React.useEffect(() => {
+    axios.get(`/allWebInfo`).then((res) => {
+      var cleanData = res.data.Webinfo.filter((sku) => sku.SKUCode);
+      setAllWebInfo(cleanData)
+    });
+  }, []);
+
+  console.log(filtered);
 
   return (
     <>
@@ -531,107 +463,66 @@ export default function Gallery() {
             ))}
           </Select>
         </FormControl>
-        {/* for Category */}
+
+        {/* for Jewelry Type */}
         <FormControl sx={{ width: "200px", marginRight: "20px" }}>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
+          <InputLabel id="demo-simple-select-label">Jewlery Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={category}
-            label="category"
-            onChange={(event) => setCategory(event.target.value)}
+            value={jewelryType}
+            label="classCode"
+            onChange={(event) => setJewelryType(event.target.value)}
           >
-            {allCategories.map((item, index) => (
+            {allJewelryType.map((item, index) => (
               <MenuItem key={index} value={item}>
                 {item}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        {/* for Sub Category */}
+
         <FormControl sx={{ width: "200px", marginRight: "20px" }}>
-          <InputLabel id="demo-simple-select-label">Sub Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={subCategory}
-            label="subCategory"
-            onChange={(event) => setSubCategory(event.target.value)}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              filter();
+            }}
+            sx={{ height: "50px" }}
           >
-            {allSubCategories.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
+            Submit
+          </Button>
         </FormControl>
-        {/* for GoldKt */}
         <FormControl sx={{ width: "200px", marginRight: "20px" }}>
-          <InputLabel id="demo-simple-select-label">Gold Karat</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={goldKt}
-            label="goldKt"
-            onChange={(event) => setGoldKt(event.target.value)}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              clearState();
+            }}
+            sx={{ height: "50px" }}
           >
-            {allGoldKt.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* for color */}
-        <FormControl sx={{ width: "200px", marginRight: "20px" }}>
-          <InputLabel id="demo-simple-select-label">Color</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={color}
-            label="color"
-            onChange={(event) => setColor(event.target.value)}
-          >
-            {allColors.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* for finishing */}
-        <FormControl sx={{ width: "200px", marginRight: "20px" }}>
-          <InputLabel id="demo-simple-select-label">Finishing</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={finishing}
-            label="finishing"
-            onChange={(event) => setfinishing(event.target.value)}
-          >
-            {allFinishings.map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* Submit Button */}
-        <FormControl
-          sx={{ width: "200px", marginRight: "20px", height: "50px" }}
-        >
-          <Button variant="outlined">Submit</Button>
+            Clear
+          </Button>
         </FormControl>
       </div>
       <div className="gallery">
-        {/* {allWebInfo.map((item) => (
-          <img
-            src={formatSkuToImage(item.SKUCode)}
-            key={item.SKUCode}
-            alt=""
-            srcset=""
-          />
-        ))} */}
+        <h1>{filtered.length} Products Found</h1>
+        {render ? (
+          <div>
+            {filtered.map((item, index) => (
+              <a href={`/productpage/${item.SKUCode}`} index={index} target="__blank">
+                <img
+                  src={formatSkuToImage(item.SKUCode)}
+                  style={{ maxWidth: "400px" }}
+                />
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <h1>Set The Filters and Click on submit</h1>
+          </div>
+        )}
       </div>
     </>
   );
@@ -639,7 +530,6 @@ export default function Gallery() {
 
 //Color
 //Finishing
-
 //Vendor
 //SubCategory
 //Classcode
