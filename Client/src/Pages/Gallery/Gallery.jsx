@@ -423,7 +423,7 @@ export default function Gallery() {
   }
 
   React.useEffect(() => {
-    axios.get(`/allWebInfo`).then((res) => {
+    axios.get(`/api/allWebInfo`).then((res) => {
       var cleanData = res.data.Webinfo.filter((sku) => sku.SKUCode);
       setAllWebInfo(cleanData);
     });

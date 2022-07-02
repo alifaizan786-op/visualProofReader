@@ -19,7 +19,7 @@ export default function SingleProduct() {
       let curImgName = formatSkuToImage(SKUCODE);
       let newImgName = formatSkuToImage(renameList[i]);
       console.log(`From ${curImgName} to ${newImgName}`);
-      await axios.get(`/rename/${curImgName}/to/${newImgName}`).then((res) => {
+      await axios.get(`/api/rename/${curImgName}/to/${newImgName}`).then((res) => {
         console.log(res);
       });
 
@@ -54,7 +54,7 @@ export default function SingleProduct() {
   let [imgNo, setImgNo] = React.useState(".jpg");
 
   React.useEffect(() => {
-    axios.get(`/allWebInfo`).then((res) => {
+    axios.get(`/api/allWebInfo`).then((res) => {
       var cleanData = res.data.Webinfo.filter((sku) => sku.SKUCode === SKUCODE);
       setSkuData(cleanData[0]);
     });

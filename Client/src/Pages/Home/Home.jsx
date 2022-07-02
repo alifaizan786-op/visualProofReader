@@ -36,7 +36,7 @@ export default function Home() {
           <Tooltip
             title={
               <h3 style={{ lineHeight: "150%" }}>
-                View All Web Data, filter thru vendor & Class Code
+                View All Web Data & Images, filter thru vendor & Class Code
               </h3>
             }
             followCursor
@@ -56,7 +56,7 @@ export default function Home() {
           <Tooltip
             title={
               <h3 style={{ lineHeight: "150%" }}>
-                View All Web Data, filter thru vendor & Class Code
+                Find Images And Rename them in bulk to upload to web
               </h3>
             }
             followCursor
@@ -66,6 +66,25 @@ export default function Home() {
               sx={{ height: "50px", marginTop: "10px" }}
             >
               Rename
+            </Button>
+          </Tooltip>
+        </FormControl>
+      </Link> 
+      <Link to="/ReportGen">
+        <FormControl sx={{ width: "200px", marginRight: "20px" }}>
+          <Tooltip
+            title={
+              <h3 style={{ lineHeight: "150%" }}>
+                Generate Different Kind of Reports, Daily Reports, Web Open to Buy vs MJ Open To Buy
+              </h3>
+            }
+            followCursor
+          >
+            <Button
+              variant="outlined"
+              sx={{ height: "50px", marginTop: "10px" }}
+            >
+              Report Generator
             </Button>
           </Tooltip>
         </FormControl>

@@ -18,7 +18,7 @@ export default function VisualProofReader() {
 
   function apiCalls() {
     for (let i = 0; i < SKU.length; i++) {
-      axios.get(`info?sku=${SKU[i]}`).then((res) => {
+      axios.get(`/api/info?sku=${SKU[i]}`).then((res) => {
         let allInfoObj = {
           sku: SKU[i],
           infoFromWeb: res.data.Webinfo,
