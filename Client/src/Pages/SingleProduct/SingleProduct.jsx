@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function SingleProduct() {
   const [skuData, setSkuData] = React.useState({});
-  const [renameList, setRenameList] = React.useState([]);
+  const [renameList, setRenameList] = React.useState([window.location.href.split("/")[3]]);
   const [btnDisable, setBtnDisable] = React.useState(true);
 
   console.log(renameList);
@@ -25,7 +25,7 @@ export default function SingleProduct() {
 
       setTimeout(async function () { 
         // Create blob link to download
-        const url = `http://localhost:8085/download/${formatSkuToImage(renameList[i])}`;
+        const url = `http://localhost:8085/api/download/${formatSkuToImage(renameList[i])}`;
         console.log(url);
         const link = document.createElement("a");
         console.log(link);
@@ -194,12 +194,16 @@ export default function SingleProduct() {
             {/* childLeft */}
             <div style={{ width: "50%" }}>
               <ul style={{ textAlign: "left", listStyle: "none" }}>
-                {Object.entries(skuData).map(([key, value], i) => (
-                  <li key={i}>
-                    {" "}
-                    <strong>{key}</strong> : {value}{" "}
-                  </li>
-                ))}
+                {skuData ? (
+                  Object.entries(skuData).map(([key, value], i) => (
+                    <li key={i}>
+                      {" "}
+                      <strong>{key}</strong> : {value}{" "}
+                    </li>
+                  ))
+                ) : (
+                    <h1>no data found</h1>
+                )}
               </ul>
             </div>
             {/* childLeft */}

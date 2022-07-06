@@ -312,25 +312,29 @@ app.get("/api/ReportGen/OpenToBuy", async (req, res) => {
 
         
 
-        let chcker = setInterval(function () {
+        let chcker = setInterval(async function () {
             if (data) {
                 let arrOfObj = []
               
                 let tempData = data.split("\n")
-                let tempDataOne = tempData.filter(function (entry) { return entry.trim() != ''; });
+              let tempDataOne = tempData.filter(function (entry) { return entry.trim() != ''; });
+              
+              let ttl = 0
                 
                 for (let i = tempDataOne.length; i >= 0; i--){
                     if (tempDataOne[i] === "                    PerGram") {
                         let obj = {
-                            majorCode : tempDataOne[i - 2],
-                            desc : tempDataOne[i - 1],
-                            ttlPcsOnline : tempDataOne[i + 1],
-                        }
+                            majorCode : tempDataOne[i - 2].trim(),
+                            desc : tempDataOne[i - 1].trim(),
+                            ttlPcsOnline : parseInt(tempDataOne[i + 1].trim()),
+                      }
+                      ttl += parseInt(tempDataOne[i + 1].trim())
                         arrOfObj.push(obj)
                     } 
-                }
+              }
+              
             
-            res.json({data : arrOfObj})
+            res.json({data : arrOfObj, ttl : ttl})
             clearInterval(chcker);
           }
         }, 500);
@@ -343,9 +347,9 @@ app.get("/api/ReportGen/OpenToBuy", async (req, res) => {
 app.use(express.static(path.join(__dirname, "../Client/build")));
 app.use(express.static(path.join(__dirname, "./images")));
 
-// app.get("/*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../Client/build/index.html"));
-// });
+app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../Client/build/index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`API server running on port ${PORT}!`);

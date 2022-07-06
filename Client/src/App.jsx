@@ -8,6 +8,7 @@ import Home from "./Pages/Home/Home";
 import Gallery from "./Pages/Gallery/Gallery";
 import SingleProduct from "./Pages/SingleProduct/SingleProduct";
 import ReportGen from "./Pages/ReportGen/ReportGen";
+import FAHome from "./Pages/FAHome/FAHome";
 
 function App() {
   return (
@@ -38,6 +39,10 @@ function App() {
 
       <Route exact path={"/ReportGen"}>
         <ReportGen />
+      </Route>
+
+      <Route exact path={"/FAHome"}>
+        <FAHome />
       </Route>
     </div>
   );
